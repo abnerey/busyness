@@ -1,0 +1,7 @@
+<div class="loader vivify {{ isBusy ? 'fadeIn active-loader' : 'fadeOut'}}
+            {{isInactive ? 'inactive-loader' : ''}}">
+    <div class="loader-inner {{loaderType}}">
+        <div *ngFor="let div of divs">
+        </div>
+    </div>
+</div>
