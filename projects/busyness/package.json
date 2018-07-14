@@ -1,8 +1,45 @@
 {
   "name": "busyness",
-  "version": "0.0.1",
+  "version": "6.0.0-beta.2",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  }
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "loaders.css": "^0.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abnerey/busyness.git"
+  },
+  "keywords": [
+    "angular",
+    "angular 5",
+    "angular 6",
+    "angular 2",
+    "async",
+    "frontend",
+    "front",
+    "end",
+    "typescript",
+    "ng-busy",
+    "ngbusy",
+    "angular-busy",
+    "angular2-busy",
+    "busy",
+    "busyness",
+    "screen",
+    "blocker",
+    "screenblocker",
+    "loaders",
+    "loader",
+    "css",
+    "loadercss",
+    "loaders.css",
+    "loader.css"
+  ],
+  "author": "Abner Juarez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abnerey/busyness/issues"
+  },
+  "homepage": "https://github.com/abnerey/busyness#readme"
 }
