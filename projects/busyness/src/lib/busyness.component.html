@@ -1,5 +1,4 @@
-<div class="loader vivify {{ isBusy ? 'fadeIn active-loader' : 'fadeOut'}}
-            {{isInactive ? 'inactive-loader' : ''}}">
+<div class="loader vivify" *ngIf="isActive" @flyInOut>
     <div class="loader-inner {{loaderType}}">
         <div *ngFor="let div of divs">
         </div>

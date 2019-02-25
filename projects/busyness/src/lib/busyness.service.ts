@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 
 @Injectable()
 export class BusynessService {
-   private busySource = new BehaviorSubject<Promise<any>>(null);
+   private readonly _busySource = new BehaviorSubject<Observable<any>>(null);
+
+   get busynessSubject() {
+      return this._busySource;
+   }
 
    subscribe(callback): Subscription {
-      return this.busySource.subscribe(callback);
+      return this._busySource.subscribe(callback);
    }
 
    next(...args) {
       const {length} = args;
       if (length) {
-         this.busySource.next(length > 1 ? Promise.all(args) : args[0]);
+         this._busySource.next(length > 1 ? Promise.all(args) : args[0]);
       }
    }
 }
