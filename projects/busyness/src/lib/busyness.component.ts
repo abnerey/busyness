@@ -4,7 +4,7 @@ import {BusynessService} from './busyness.service';
 import {Subscription} from 'rxjs';
 import {BusynessConfig} from './shared/busyness-config';
 import {LoaderType} from './shared/loader-type';
-import {filter, debounceTime } from 'rxjs/operators';
+import {filter, debounceTime} from 'rxjs/operators';
 
 const inactiveStyle = style({
     opacity: 0,
@@ -46,7 +46,7 @@ export class BusynessComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.busySubscription = this.busynessService.busynessSubject
         .pipe(
-            filter(() => !this.isActive)
+            filter((state) => !this.isActive && state)
         )
         .subscribe(() => {
             this.isActive = true;
@@ -55,8 +55,11 @@ export class BusynessComponent implements OnInit, OnDestroy {
             }
             this.debouncedSubscription = this.busynessService.busynessSubject
             .pipe(
-                debounceTime(1000)
-            ).subscribe(() => this.isActive = false);
+                debounceTime(500),
+                filter(state => !state)
+            ).subscribe(() => {
+                this.isActive = false;
+            });
         });
     }
 

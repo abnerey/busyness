@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class BusynessService {
-   private readonly _busySource = new BehaviorSubject<Observable<any>>(null);
+   private readonly _busySource = new BehaviorSubject<boolean>(false);
 
    get busynessSubject() {
       return this._busySource;
@@ -15,8 +15,17 @@ export class BusynessService {
 
    next(...args) {
       const {length} = args;
+      const [first] = args;
       if (length) {
-         this._busySource.next(length > 1 ? Promise.all(args) : args[0]);
+         if (first instanceof Promise) {
+            this._busySource.next(true);
+            const promise = length > 1 ? Promise.all(args) : first;
+            (promise as any).finally(() => this._busySource.next(false));
+         }
+
+         if (typeof first === 'boolean') {
+            this._busySource.next(first);
+         }
       }
    }
 }

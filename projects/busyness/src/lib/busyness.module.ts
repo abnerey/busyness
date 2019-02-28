@@ -1,8 +1,10 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {BusynessComponent} from './busyness.component';
-import {BusynessService} from './busyness.service';
-import {BusynessConfig} from './shared/busyness-config';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BusynessComponent } from './busyness.component';
+import { BusynessService } from './busyness.service';
+import { BusynessConfig } from './shared/busyness-config';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BusynessInterceptor } from './shared/interceptors/busyness.interceptor';
 
 @NgModule({
     imports: [
@@ -24,7 +26,12 @@ export class BusynessModule {
             ngModule: BusynessModule,
             providers: [
                 BusynessService,
-                {provide: BusynessConfig, useValue: config}
+                {provide: BusynessConfig, useValue: config},
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    useClass: BusynessInterceptor,
+                    multi: true
+                }
             ]
         };
     }
