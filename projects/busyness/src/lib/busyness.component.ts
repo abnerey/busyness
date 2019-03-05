@@ -4,7 +4,7 @@ import {BusynessService} from './busyness.service';
 import {Subscription} from 'rxjs';
 import {BusynessConfig} from './shared/busyness-config';
 import {LoaderType} from './shared/loader-type';
-import {filter, debounceTime} from 'rxjs/operators';
+import {filter, debounceTime, tap} from 'rxjs/operators';
 
 const inactiveStyle = style({
     opacity: 0,
@@ -31,6 +31,7 @@ const timing = '.3s ease';
 export class BusynessComponent implements OnInit, OnDestroy {
     private busySubscription: Subscription;
     private debouncedSubscription: Subscription;
+    private emitionsCounter = 0;
     isActive = false;
     loaderType = LoaderType.BALL_SCALE_RIPPLE_MULTIPLE.type;
     divs = Array(LoaderType.BALL_SCALE_RIPPLE_MULTIPLE.divs - 1);
@@ -46,18 +47,32 @@ export class BusynessComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.busySubscription = this.busynessService.busynessSubject
         .pipe(
-            filter((state) => !this.isActive && state)
+            filter(state => state),
+            tap(() => {
+                this.emitionsCounter++;
+                // console.log('emitionsCounter plus', this.emitionsCounter);
+            }),
+            filter(() => !this.isActive)
         )
         .subscribe(() => {
             this.isActive = true;
+            // console.log('==> Active!')
             if (this.debouncedSubscription) {
                 this.debouncedSubscription.unsubscribe();
             }
             this.debouncedSubscription = this.busynessService.busynessSubject
             .pipe(
+                filter(state => !state),
+                tap(() => {
+                    if (this.emitionsCounter > 0) {
+                        this.emitionsCounter--;
+                        // console.log('emitionsCounter minus', this.emitionsCounter);
+                    }
+                }),
                 debounceTime(500),
-                filter(state => !state)
+                filter(() => this.emitionsCounter === 0),
             ).subscribe(() => {
+                // console.log('==> Inactive');
                 this.isActive = false;
             });
         });

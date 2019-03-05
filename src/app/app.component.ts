@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BusynessService } from 'projects/busyness/src/public_api';
 import { timer } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { take, delay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -20,8 +20,12 @@ export class AppComponent implements OnInit {
   }
 
   testObs() {
-    this.timer$.subscribe(() => {
-      this.httpClient.get('https://pokeapi.co/api/v2/pokemon/1/').subscribe(val => console.log('resolve obs'));
+    this.timer$.subscribe((time) => {
+      this.httpClient.get('https://pokeapi.co/api/v2/pokemon/1/')
+      .pipe(
+        delay(time * 100)
+      )
+      .subscribe(val => console.log('resolve obs'));
     });
   }
 
@@ -30,24 +34,24 @@ export class AppComponent implements OnInit {
       this.busynessService.next(new Promise((resolve, reject) => {
         setTimeout(() => {
           if (val % 2 === 0) {
-            // resolve();
+            resolve();
           } else {
             reject();
           }
           console.log('resolve promise');
-        }, 1000);
+        }, val * 1000);
       }));
     });
   }
 
   testMulti() {
     const battery = [];
-    for (let i = 0; i < 25; i++) {
+    for (let i = 1; i < 26; i++) {
       battery.push(new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve();
           console.log('resolve promise in all');
-        }, 1000);
+        }, i * 200);
       }));
     }
     this.busynessService.next(...battery);
