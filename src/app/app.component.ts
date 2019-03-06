@@ -1,10 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BusynessService } from 'projects/busyness/src/public_api';
+import { BusynessService, LoaderType } from 'projects/busyness/src/public_api';
 import { timer, fromEvent, Observable, Subscription } from 'rxjs';
 import { take, delay, map, pairwise, filter, throttleTime } from 'rxjs/operators';
-import { LoaderType } from 'busyness';
-import { s } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
     .subscribe((e) => {
       console.log('scrolling down', e);
       this.moveTop = true;
-      //this.moveBottom = false;
+      this.moveBottom = false;
     });
 
     this.scrollUpSubscription = this.getScrollingObs()
@@ -41,8 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
     )
     .subscribe((e) => {
       console.log('scrolling up', e);
-      /* this.moveBottom = true;
-      this.moveTop = false; */
+      this.moveBottom = true;
+      this.moveTop = false;
     });
   }
 

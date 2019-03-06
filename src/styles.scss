@@ -57,7 +57,7 @@ html, body {
 
 #scroll-container {
   overflow: auto;
-  width: 100%;
+  width: 101%;
   height: 100%;
   overflow-x: hidden;
 }
@@ -107,7 +107,7 @@ html, body {
   text-align: center;
   background-color: white;
   height: 56vh;
-  width: 99.79%;
+  width: 100%;
   margin-top: -2vh;
   border-radius: 20px 20px 0 0;
   background-color: whitesmoke;
@@ -123,8 +123,9 @@ html, body {
 
 .moveBottom {
   margin-top: -2vh;
+  height: 56vh;
   animation-name: moveBottom;
-  animation-duration: 2s;
+  animation-duration: 1.5s;
   animation-timing-function: ease-in-out;
 }
 
@@ -143,10 +144,12 @@ html, body {
 @keyframes moveBottom {
   0% {
     margin-top: -30vh;
+    height: 84vh;
   }
 
   100% {
     margin-top: -2vh;
+    height: 56vh;
   }
 }
 
