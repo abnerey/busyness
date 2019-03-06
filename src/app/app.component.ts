@@ -3,6 +3,7 @@ import { BusynessService } from 'projects/busyness/src/public_api';
 import { timer } from 'rxjs';
 import { take, delay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { LoaderType } from 'busyness';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit {
   }
 
   testMulti() {
+    // this.busynessService.loaderSource.next(LoaderType.PACMAN);
     const battery = [];
     for (let i = 1; i < 26; i++) {
       battery.push(new Promise((resolve, reject) => {

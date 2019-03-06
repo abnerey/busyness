@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, Subject } from 'rxjs';
+import { LoaderType } from './shared/loader-type';
 
 @Injectable()
 export class BusynessService {
    private readonly _busySource = new BehaviorSubject<boolean>(false);
+   public readonly loaderSource = new Subject<LoaderType>();
 
    get busynessSubject() {
       return this._busySource;

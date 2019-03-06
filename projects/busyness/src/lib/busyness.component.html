@@ -1,6 +1,8 @@
 <div class="loader vivify" *ngIf="isActive" @flyInOut>
-    <div class="loader-inner {{loaderType}}">
-        <div *ngFor="let div of divs">
+    <ng-container *ngIf="loaderType && divs">
+        <div class="loader-inner {{loaderType}}">
+            <div *ngFor="let div of divs" class="inner-div">
+            </div>
         </div>
-    </div>
+    </ng-container>
 </div>

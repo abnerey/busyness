@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy, Optional} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {BusynessService} from './busyness.service';
-import {Subscription} from 'rxjs';
-import {BusynessConfig} from './shared/busyness-config';
-import {LoaderType} from './shared/loader-type';
-import {filter, debounceTime, tap} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { BusynessService } from './busyness.service';
+import { Subscription } from 'rxjs';
+import { BusynessConfig } from './shared/busyness-config';
+import { LoaderType } from './shared/loader-type';
+import { filter, debounceTime, tap } from 'rxjs/operators';
 
 const inactiveStyle = style({
     opacity: 0,
@@ -31,32 +31,46 @@ const timing = '.3s ease';
 export class BusynessComponent implements OnInit, OnDestroy {
     private busySubscription: Subscription;
     private debouncedSubscription: Subscription;
+    private loaderSuscription: Subscription;
     private emitionsCounter = 0;
     isActive = false;
-    loaderType = LoaderType.BALL_SCALE_RIPPLE_MULTIPLE.type;
-    divs = Array(LoaderType.BALL_SCALE_RIPPLE_MULTIPLE.divs - 1);
+    loaderType: string;
+    divs: any[];
 
     constructor(private busynessService: BusynessService,
                 @Optional() private config: BusynessConfig) {
         if (config) {
-            this.loaderType = this.config.loaderType.type;
-            this.divs = Array(this.config.loaderType.divs - 1);
+            this.initLoader(this.config.loaderType);
+        } else {
+            this.initLoader(LoaderType.BALL_SCALE_RIPPLE_MULTIPLE);
         }
     }
 
     ngOnInit() {
+        this.initBusySubscriptions();
+        this.initLoaderSubscription();
+    }
+
+    initLoader(loaderType: LoaderType) {
+        this.loaderType = loaderType.type;
+        this.divs = Array(loaderType.divs);
+    }
+
+    initLoaderSubscription() {
+        this.loaderSuscription = this.busynessService.loaderSource.subscribe(this.initLoader.bind(this));
+    }
+
+    initBusySubscriptions() {
         this.busySubscription = this.busynessService.busynessSubject
         .pipe(
             filter(state => state),
             tap(() => {
                 this.emitionsCounter++;
-                // console.log('emitionsCounter plus', this.emitionsCounter);
             }),
             filter(() => !this.isActive)
         )
         .subscribe(() => {
             this.isActive = true;
-            // console.log('==> Active!')
             if (this.debouncedSubscription) {
                 this.debouncedSubscription.unsubscribe();
             }
@@ -66,17 +80,17 @@ export class BusynessComponent implements OnInit, OnDestroy {
                 tap(() => {
                     if (this.emitionsCounter > 0) {
                         this.emitionsCounter--;
-                        // console.log('emitionsCounter minus', this.emitionsCounter);
                     }
                 }),
                 debounceTime(500),
                 filter(() => this.emitionsCounter === 0),
             ).subscribe(() => {
-                // console.log('==> Inactive');
                 this.isActive = false;
             });
         });
     }
+
+
 
     ngOnDestroy() {
         if (this.busySubscription) {
@@ -84,6 +98,9 @@ export class BusynessComponent implements OnInit, OnDestroy {
         }
         if (this.debouncedSubscription) {
             this.debouncedSubscription.unsubscribe();
+        }
+        if (this.loaderSuscription) {
+            this.loaderSuscription.unsubscribe();
         }
     }
 
