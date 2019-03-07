@@ -4,6 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { BusynessModule, LoaderType } from 'projects/busyness/src/public_api';
 import { HttpClientModule } from '@angular/common/http';
+import { MaterialImplModule } from './shared/materia-impl.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,10 @@ import { HttpClientModule } from '@angular/common/http';
     BusynessModule.forRoot({
       loaderType: LoaderType.BALL_SCALE_MULTIPLE
     }),
-    HttpClientModule
+    HttpClientModule,
+    MaterialImplModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

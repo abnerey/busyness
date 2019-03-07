@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BusynessService, LoaderType } from 'projects/busyness/src/public_api';
 import { timer, fromEvent, Observable, Subscription } from 'rxjs';
 import { take, delay, map, pairwise, filter, throttleTime } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +17,24 @@ export class AppComponent implements OnInit, OnDestroy {
   moveTop: boolean;
   moveBottom: boolean;
   timer$ = timer(0, 500).pipe(take(25));
+  loaderForm: FormGroup;
+  configForm: FormGroup;
 
   constructor(private readonly busynessService: BusynessService,
-              private readonly httpClient: HttpClient) {}
+              private readonly httpClient: HttpClient,
+              private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.initScrollingSubs();
+    this.setUpForms();
+  }
+
+  setUpForms() {
+    this.loaderForm = this.formBuilder.group({});
+    this.configForm = this.formBuilder.group({});
+  }
+
+  initScrollingSubs() {
     this.scrollDownSubscription = this.getScrollingObs()
     .pipe(
       filter(scrollPairs =>  scrollPairs[1] > scrollPairs[0]),
@@ -48,9 +62,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const scrollContainer = document.getElementById('scroll-container');
     return fromEvent(scrollContainer, 'scroll').pipe(
       map((e) => {
-        /* e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation(); */
         return e.target;
       }),
       map((e: any) => {

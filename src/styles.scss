@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~loaders.css/loaders.min.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 // BUSYNESS
 .loader {
@@ -23,7 +24,6 @@
     div {
       width: 100px;
       height: 100px;
-      
     }
   }
 }
@@ -40,10 +40,20 @@ html, body {
   * {
     margin: 0;
     padding: 0;
-    font-family: Questrial !important;
     letter-spacing: 2px;
   }
 
+}
+
+html,
+body,
+label,
+p,
+h1,h2,h3,h4,h5,h6,
+span,
+div,
+td {
+  font-family: Questrial !important;
 }
 
 .main-container {
@@ -70,11 +80,17 @@ html, body {
   background: linear-gradient(to right, #F15F79, #B24592);
   color: white;
   height: 47vh;
+  position: relative;
+
+  .link-section {
+    height: 150px;
+    width: 100%;
+  }
 
   h1 {
     display: inline-block;
     font-size: 5rem;
-    padding-top: 150px;
+    /* padding-top: 150px; */
     margin-bottom: 30px;
     border-bottom: white 2.5px dashed;
     line-height: 1.15;
@@ -107,17 +123,18 @@ html, body {
   text-align: center;
   background-color: white;
   height: 56vh;
-  width: 100%;
+  width: 99.78%;
   margin-top: -2vh;
   border-radius: 20px 20px 0 0;
-  background-color: whitesmoke;
+  position: relative;
+  box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.3);
 }
 
 .moveTop {
-  margin-top: -30vh;
-  height: 84vh;
+  margin-top: -31vh;
+  height: 85vh;
   animation-name: moveTop;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: ease-in-out;
 }
 
@@ -125,7 +142,7 @@ html, body {
   margin-top: -2vh;
   height: 56vh;
   animation-name: moveBottom;
-  animation-duration: 1.5s;
+  animation-duration: 1s;
   animation-timing-function: ease-in-out;
 }
 
@@ -136,15 +153,15 @@ html, body {
   }
 
   100% {
-    margin-top: -30vh;
-    height: 84vh;
+    margin-top: -31vh;
+    height: 85vh;
   }
 }
 
 @keyframes moveBottom {
   0% {
-    margin-top: -30vh;
-    height: 84vh;
+    margin-top: -31vh;
+    height: 85vh;
   }
 
   100% {

@@ -5,6 +5,9 @@
 
   <div id="scroll-container">
     <section class="welcome-banner">
+      <div class="link-section">
+        <span>hola</span>
+    </div>
       <h1>
         Busyness
       </h1>
@@ -20,6 +23,34 @@
       <!-- <button (click)="testObs()">Test With Http Requests</button>
       <button (click)="testSingle()">Test With Single Promise Emition</button>
       <button (click)="testMulti()">Test With Multi Promise Emition</button> -->
+      <div class="stepper-container" *ngIf="moveTop">
+        <mat-horizontal-stepper [linear]="true" labelPosition="bottom" #stepper>
+            <mat-step [stepControl]="loaderForm">
+              <ng-template matStepLabel>Pick a Loader</ng-template>
+              first
+              <mat-icon>create</mat-icon>
+              <div>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </mat-step>
+            <mat-step [stepControl]="configForm">
+              <ng-template matStepLabel>Set Test Configuration</ng-template>
+              second
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Done</ng-template>
+              You are now done.
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          </mat-horizontal-stepper>
+      </div>
     </section>
   </div>
   
