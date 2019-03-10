@@ -1,8 +1,14 @@
 # Busyness
 
-Screen blocker for async operations for Angular (based on loaders.css)
-
 This is a loaders library for Angular 6+, it's based con loaders.css, so, you'll dispose of many beautiful loaders out of the box; however, busyness give the chance to make your very own custom component to be shown when the web app it's "busy".
+
+### Why Busyness?
+
+Busyness is a fully automated solution, you don't have to manage any services or directives to block the screen, just leave to busyness the work!
+
+### What's the magic?
+
+Behind the scenes busyness is using HttpInterceptors, it captures the http-requests and manage them to block the screen during the call is being resolved; no matter how many requests you are making, busyness will block the screen until every request has been resolved, without glitching, of course :wink:
 
 ### Getting Started
 
