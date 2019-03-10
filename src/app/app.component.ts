@@ -14,11 +14,15 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'app';
   scrollDownSubscription: Subscription;
   scrollUpSubscription: Subscription;
-  moveTop: boolean;
+  moveTop: boolean =  true; // TODO: remove value for production
   moveBottom: boolean;
+  isMovingTop: boolean;
+  isMovingBottom: boolean;
   timer$ = timer(0, 500).pipe(take(25));
   loaderForm: FormGroup;
   configForm: FormGroup;
+  loaders: any[];
+  loader;
 
   constructor(private readonly busynessService: BusynessService,
               private readonly httpClient: HttpClient,
@@ -27,6 +31,15 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initScrollingSubs();
     this.setUpForms();
+    this.initLoaders();
+  }
+
+  initLoaders() {
+    this.loaders = Object.entries(LoaderType).reduce((acc, [, loader]) => {
+      acc.push({type: loader.type, divs: Array(loader.divs)});
+      return acc;
+    }, []);
+    this.loaders = this.loaders.slice(0, this.loaders.length - 7);
   }
 
   setUpForms() {
@@ -46,16 +59,17 @@ export class AppComponent implements OnInit, OnDestroy {
       this.moveBottom = false;
     });
 
-    this.scrollUpSubscription = this.getScrollingObs()
+    // TODO: uncomment for production
+    /* this.scrollUpSubscription = this.getScrollingObs()
     .pipe(
       filter(scrollPairs =>  scrollPairs[0] > scrollPairs[1]),
-      throttleTime(1000)
+      throttleTime(1000),
     )
     .subscribe((e) => {
       console.log('scrolling up', e);
       this.moveBottom = true;
       this.moveTop = false;
-    });
+    }); */
   }
 
   getScrollingObs(): Observable<any> {

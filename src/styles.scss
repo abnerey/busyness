@@ -1,6 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~loaders.css/loaders.min.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/theming";
+@include mat-core();
+
+$app-primary: mat-palette($mat-pink, A400);
+$app-accent: mat-palette($mat-pink, A400);
+
+$app-theme: mat-light-theme(
+  $app-primary,
+  $app-accent
+);
+
+@include angular-material-theme($app-theme);
 
 // BUSYNESS
 .loader {
@@ -67,7 +79,7 @@ td {
 
 #scroll-container {
   overflow: auto;
-  width: 101%;
+  width: 100%;
   height: 100%;
   overflow-x: hidden;
 }
@@ -200,6 +212,103 @@ td {
   }
 
   100% {
+    opacity: 1;
+  }
+}
+
+.stepper-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  mat-horizontal-stepper {
+    display: inline-block;
+    opacity: 0;
+    background-color: #fdfdfd;
+    margin-top: 100px;
+    height: 240px;
+    width: calc(100% - 200px);
+    border-radius: 10px;
+    box-shadow: 0px 0px 55px -10px rgba(0, 0, 0, 0.1);
+  }
+
+  .expanded {
+    height: 640px;
+    opacity: 1;
+
+    animation-name: expand;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+  }
+
+  mat-step-header {
+    align-self: center;
+  }
+
+  mat-step-header[ng-reflect-active="true"] {
+
+    .mat-step-label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+  }
+
+  .mat-horizontal-stepper-header-container {
+    justify-content: center;
+    padding: 1% 5%;
+  }
+
+  .mat-stepper-horizontal-line {
+    border-top-width: 3px;
+    border-top-style: dashed;
+  }
+
+  .mat-horizontal-content-container {
+    height: 90%;
+  }
+}
+
+.loaders-container {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  .inner-loader {
+    align-items: center;
+    justify-content: center;
+    display: flex; 
+  }
+
+  .inner-divs {
+    background-color: #ed5565;
+  }
+
+}
+
+@media (min-width: 992px) {
+  .inner-loader {
+    flex-basis: 20%;
+    height: 115px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .inner-loader {
+    flex-basis: 14%;
+    height: 140px;
+  }
+}
+
+@keyframes expand {
+  0% {
+    height: 240px;
+    opacity: 0;
+  }
+
+  100% {
+    height: 640px;
     opacity: 1;
   }
 }
