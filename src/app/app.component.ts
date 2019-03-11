@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BusynessService, LoaderType } from 'projects/busyness/src/public_api';
 import { timer, fromEvent, Observable, Subscription } from 'rxjs';
 import { take, delay, map, pairwise, filter, throttleTime } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
@@ -15,6 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'app';
   scrollDownSubscription: Subscription;
   scrollUpSubscription: Subscription;
+  configFormSubscription: Subscription;
   moveTop: boolean; // TODO: remove value for production
   moveBottom: boolean;
   isMovingTop: boolean;
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
   timer$ = timer(0, 500).pipe(take(25));
   loaderForm: FormGroup;
   configForm: FormGroup;
+  config: any;
   loaders: any[];
 
   constructor(private readonly busynessService: BusynessService,
@@ -45,7 +47,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setUpForms() {
     this.loaderForm = this.formBuilder.group({});
-    this.configForm = this.formBuilder.group({});
+    this.configForm = this.formBuilder.group({
+      requests: this.formBuilder.control(5, Validators.required),
+      timer: this.formBuilder.control(500, Validators.required),
+      hint: this.formBuilder.control(null)
+    });
+    this.configFormSubscription = this.configForm.valueChanges.subscribe(val => this.config = val);
   }
 
   initScrollingSubs() {
@@ -91,12 +98,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   testObs() {
-    this.timer$.subscribe((time) => {
+    console.log(this.config);
+    const timer$ = timer(0, 500).pipe(take(this.config.requests));
+    timer$.subscribe((time) => {
       this.httpClient.get('https://pokeapi.co/api/v2/pokemon/1/')
       .pipe(
-        delay(time * 100)
+        delay(time * this.config.timer)
       )
-      .subscribe(val => console.log('resolve obs'));
+      .subscribe(val => console.log('resolve obs: ', this.config.hint));
     });
   }
 
@@ -116,7 +125,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   testMulti() {
-    // this.busynessService.loaderSource.next(LoaderType.PACMAN);
     const battery = [];
     for (let i = 1; i < 26; i++) {
       battery.push(new Promise((resolve, reject) => {
@@ -136,6 +144,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     if (this.scrollUpSubscription) {
       this.scrollUpSubscription.unsubscribe();
+    }
+
+    if (this.configFormSubscription) {
+      this.configFormSubscription.unsubscribe();
     }
   }
 }

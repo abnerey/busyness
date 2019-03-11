@@ -6,7 +6,12 @@
   <div id="scroll-container">
     <section class="welcome-banner">
       <div class="link-section">
-        <!-- <span>hola</span> -->
+        <a mat-icon-button href="https://github.com/abnerey/busyness">
+          <mat-icon aria-label="source_code">code</mat-icon>
+        </a>
+        <a mat-icon-button href="https://www.npmjs.com/package/busyness">
+          <mat-icon aria-label="get_app">get_app</mat-icon>
+        </a>
       </div>
       <h1>
         Busyness
@@ -22,39 +27,72 @@
     <section class="overview" [ngClass]="{moveTop: moveTop, moveBottom: moveBottom}">
       <div class="stepper-container" *ngIf="moveTop">
         <mat-horizontal-stepper [linear]="true" labelPosition="bottom" [ngClass]="{expanded: moveTop}" #stepper>
-            <mat-step [stepControl]="loaderForm">
-              <ng-template matStepLabel>Pick a Loader</ng-template>
-              <div class="loaders-container">
-                <div class="inner-loader" *ngFor="let load of loaders" (click)="onSelectLoader(load)">
-                  <div class="{{load.type}}">
-                    <div *ngFor="let div of load.divs" class="inner-divs">
-                    </div>
+          <mat-step [stepControl]="loaderForm">
+            <ng-template matStepLabel>Pick a Loader</ng-template>
+            <div class="loaders-container">
+              <div class="inner-loader" *ngFor="let load of loaders" (click)="onSelectLoader(load)">
+                <div class="{{load.type}}">
+                  <div *ngFor="let div of load.divs" class="inner-divs">
                   </div>
                 </div>
               </div>
-              <div class="rb-button">
-                <button mat-button matStepperNext>Next</button>
+            </div>
+            <div class="rb-button">
+              <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="configForm">
+            <ng-template matStepLabel>Set Test Configuration</ng-template>
+            <div class="tests-container" [formGroup]="configForm">
+              <div class="inner-test">
+                <mat-form-field appearance="outline">
+                  <mat-label>Insert a number</mat-label>
+                  <input matInput type="number" [formControlName]="'requests'">
+                  <mat-icon matSuffix>send</mat-icon>
+                  <mat-hint>How many tests do you want?</mat-hint>
+                </mat-form-field>
               </div>
-            </mat-step>
-            <mat-step [stepControl]="configForm">
-              <ng-template matStepLabel>Set Test Configuration</ng-template>
-              second
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
+              <div class="inner-test">
+                <mat-form-field appearance="outline">
+                  <mat-label>Inser a time delay</mat-label>
+                  <input matInput type="number" [formControlName]="'timer'">
+                  <mat-icon matSuffix>timer</mat-icon>
+                  <mat-hint>How much delay do you want?</mat-hint>
+                </mat-form-field>
               </div>
-            </mat-step>
-            <mat-step>
-              <ng-template matStepLabel>Done</ng-template>
-              <button (click)="testObs()">Test With Http Requests</button>
-              <button (click)="testSingle()">Test With Single Promise Emition</button>
-              <button (click)="testMulti()">Test With Multi Promise Emition</button>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+              <div class="inner-test">
+                <mat-form-field appearance="outline">
+                  <mat-label>Inser a hint text</mat-label>
+                  <input matInput type="text" [formControlName]="'hint'">
+                  <mat-icon matSuffix>title</mat-icon>
+                  <mat-hint>Write an identifier string to show in the console</mat-hint>
+                </mat-form-field>
+                </div>
+            </div>
+            <div class="button-row">
+              <button mat-flat-button color="warn" matStepperPrevious>Back</button>
+              <button mat-flat-button color="accent" [disabled]="configForm.invalid" matStepperNext>Next</button>
+            </div>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <div class="tests-container">
+              <div class="inner-test">
+                <button mat-stroked-button color="primary" (click)="testObs()">Test With Http Requests</button>
               </div>
-            </mat-step>
-          </mat-horizontal-stepper>
+              <div class="inner-test">
+                <button mat-stroked-button color="primary" (click)="testSingle()">Test With Single Promise Emition</button>
+              </div>
+              <div class="inner-test">
+                <button mat-stroked-button color="primary" (click)="testMulti()">Test With Multi Promise Emition</button>
+              </div>
+            </div>
+            <div class="button-row">
+              <button mat-flat-button color="warn" matStepperPrevious>Back</button>
+              <button mat-flat-button color="accent" (click)="stepper.reset()">Reset</button>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
       </div>
     </section>
   </div>

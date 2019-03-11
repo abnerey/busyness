@@ -5,7 +5,7 @@
 @include mat-core();
 
 $app-primary: mat-palette($mat-pink, A400);
-$app-accent: mat-palette($mat-pink, A400);
+$app-accent: mat-palette($mat-indigo, A700);
 
 $app-theme: mat-light-theme(
   $app-primary,
@@ -68,11 +68,15 @@ td {
   font-family: Questrial !important;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .main-container {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 101%;
   height: 100%;
   overflow: hidden;
 }
@@ -97,6 +101,20 @@ td {
   .link-section {
     height: 150px;
     width: 100%;
+    text-align: right;
+    
+    .mat-icon-button {
+      margin: 10px 20px 0 0;
+      width: 40px;
+      height: 40px;
+    }
+
+    .mat-icon {
+      font-size: 2.5em;
+      text-align: center;
+      width: 100%;
+    }
+
   }
 
   h1 {
@@ -286,6 +304,17 @@ td {
     align-items: center;
     justify-content: center;
     display: flex; 
+    transition: all .3s;
+  }
+
+  .inner-loader:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.2);
+  }
+
+  .inner-loader:active {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 20px -8px rgba(0, 0, 0, 0.2);
   }
 
   .inner-divs {
@@ -410,7 +439,7 @@ td {
 @media (min-width: 1200px) {
   .inner-loader {
     flex-basis: 14%;
-    height: 160px;
+    height: 147px;
   }
 
   mat-horizontal-stepper {
@@ -431,5 +460,33 @@ td {
       height: 80%;
       opacity: 1;
     }
+  }
+}
+
+.tests-container {
+  display: flex;
+  height: 90%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  vertical-align: top;
+
+  .mat-form-field {
+    width: 20%;
+  }
+
+  .inner-test {
+    display: flex;
+    flex-basis: 100%;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.button-row {
+  text-align: right;
+
+  button {
+    margin-right: 15px;
   }
 }
