@@ -4,6 +4,7 @@ import { BusynessService, LoaderType } from 'projects/busyness/src/public_api';
 import { timer, fromEvent, Observable, Subscription } from 'rxjs';
 import { take, delay, map, pairwise, filter, throttleTime } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
@@ -22,10 +23,10 @@ export class AppComponent implements OnInit, OnDestroy {
   loaderForm: FormGroup;
   configForm: FormGroup;
   loaders: any[];
-  loader;
 
   constructor(private readonly busynessService: BusynessService,
               private readonly httpClient: HttpClient,
+              private readonly mediaMatcher: MediaMatcher,
               private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
@@ -38,8 +39,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loaders = Object.entries(LoaderType).reduce((acc, [, loader]) => {
       acc.push({type: loader.type, divs: Array(loader.divs)});
       return acc;
-    }, []);
-    this.loaders = this.loaders.slice(0, this.loaders.length - 7);
+    }, [])
+    .filter(loader => loader.type !== 'ball-clip-rotate' && loader.type !== 'ball-clip-rotate-pulse');
+    // this.loaders = this.loaders.slice(0, this.loaders.length - 5);
   }
 
   setUpForms() {
