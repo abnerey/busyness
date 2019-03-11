@@ -6,7 +6,7 @@
   <div id="scroll-container">
     <section class="welcome-banner">
       <div class="link-section">
-        <span>hola</span>
+        <!-- <span>hola</span> -->
       </div>
       <h1>
         Busyness
@@ -25,7 +25,7 @@
             <mat-step [stepControl]="loaderForm">
               <ng-template matStepLabel>Pick a Loader</ng-template>
               <div class="loaders-container">
-                <div class="inner-loader" *ngFor="let load of loaders">
+                <div class="inner-loader" *ngFor="let load of loaders" (click)="onSelectLoader(load)">
                   <div class="{{load.type}}">
                     <div *ngFor="let div of load.divs" class="inner-divs">
                     </div>

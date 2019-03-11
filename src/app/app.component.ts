@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'app';
   scrollDownSubscription: Subscription;
   scrollUpSubscription: Subscription;
-  moveTop: boolean =  true; // TODO: remove value for production
+  moveTop: boolean; // TODO: remove value for production
   moveBottom: boolean;
   isMovingTop: boolean;
   isMovingBottom: boolean;
@@ -41,7 +41,6 @@ export class AppComponent implements OnInit, OnDestroy {
       return acc;
     }, [])
     .filter(loader => loader.type !== 'ball-clip-rotate' && loader.type !== 'ball-clip-rotate-pulse');
-    // this.loaders = this.loaders.slice(0, this.loaders.length - 5);
   }
 
   setUpForms() {
@@ -62,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     // TODO: uncomment for production
-    /* this.scrollUpSubscription = this.getScrollingObs()
+    this.scrollUpSubscription = this.getScrollingObs()
     .pipe(
       filter(scrollPairs =>  scrollPairs[0] > scrollPairs[1]),
       throttleTime(1000),
@@ -71,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('scrolling up', e);
       this.moveBottom = true;
       this.moveTop = false;
-    }); */
+    });
   }
 
   getScrollingObs(): Observable<any> {
@@ -85,6 +84,10 @@ export class AppComponent implements OnInit, OnDestroy {
       }),
       pairwise()
     );
+  }
+
+  onSelectLoader(loader) {
+    this.busynessService.loaderSource.next(loader);
   }
 
   testObs() {

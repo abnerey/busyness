@@ -35,7 +35,7 @@ export class BusynessComponent implements OnInit, OnDestroy {
     private emitionsCounter = 0;
     isActive = false;
     loaderType: string;
-    divs: any[];
+    divs: any;
 
     constructor(private busynessService: BusynessService,
                 @Optional() private config: BusynessConfig) {
@@ -52,8 +52,9 @@ export class BusynessComponent implements OnInit, OnDestroy {
     }
 
     initLoader(loaderType: LoaderType) {
+        console.log(loaderType);
         this.loaderType = loaderType.type;
-        this.divs = Array(loaderType.divs);
+        this.divs = (loaderType.divs as any) instanceof Array ? loaderType.divs : Array(loaderType.divs);
     }
 
     initLoaderSubscription() {

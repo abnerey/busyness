@@ -28,7 +28,7 @@ $app-theme: mat-light-theme(
     margin-left: calc(50vw - 50px);
 
     div {
-      background-color: #337ab7;
+      background-color: #ed5565;
     }
   }
 
@@ -225,15 +225,12 @@ td {
     display: inline-block;
     opacity: 0;
     background-color: #fdfdfd;
-    /* margin-top: 100px; */
-    /* height: 240px */;
     width: 80%;
     border-radius: 10px;
     box-shadow: 0px 0px 55px -10px rgba(0, 0, 0, 0.1);
   }
 
   .expanded {
-    /* height: 640px; */
     opacity: 1;
     overflow-y: hidden;
 
@@ -305,20 +302,24 @@ td {
 
 @media (min-width: 320px) {
   .inner-loader {
-    flex-basis: 50%;
-    height: 100px;
+    flex-basis: 33%;
+    height: 110px;
   }
 
   mat-horizontal-stepper {
     margin-top: 10px;
-    width: 90%;
+    width: 90% !important;
   }
 
   .expanded {
-    height: 575px;
+    height: 80%;
   }
 
   mat-step-header[ng-reflect-active="false"] {
+    display: none;
+  }
+
+  mat-step-header[ng-reflect-state="edit"] {
     display: none;
   }
 
@@ -333,7 +334,7 @@ td {
     }
   
     100% {
-      height: 575px;
+      height: 80%;
       opacity: 1;
     }
   }
@@ -349,9 +350,21 @@ td {
     margin-top: 50px;
 
   }
+
+  mat-step-header[ng-reflect-active="false"] {
+    display: flex;
+  }
+
+  mat-step-header[ng-reflect-state="edit"] {
+    display: flex;
+  }
+
+  .mat-stepper-horizontal-line {
+    display: block;
+  }
   
   .expanded {
-    height: 640px;
+    height: 80%;
   }
 
   @keyframes expand {
@@ -361,7 +374,7 @@ td {
     }
   
     100% {
-      height: 640px;
+      height: 80%;
       opacity: 1;
     }
   }
@@ -373,12 +386,12 @@ td {
     height: 115px;
   }
 
-  mat-horizontal-stepper {
-    margin-top: 50px;
+  .expanded {
+    height: 80%;
   }
 
-  .expanded {
-    height: 640px;
+  mat-horizontal-stepper {
+    margin-top: 50px;
   }
 
   @keyframes expand {
@@ -388,7 +401,7 @@ td {
     }
   
     100% {
-      height: 640px;
+      height: 80%;
       opacity: 1;
     }
   }
@@ -405,7 +418,7 @@ td {
   }
 
   .expanded {
-    height: 640px;
+    height: 80%;
   }
 
   @keyframes expand {
@@ -415,7 +428,7 @@ td {
     }
   
     100% {
-      height: 640px;
+      height: 80%;
       opacity: 1;
     }
   }
