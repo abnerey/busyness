@@ -23,7 +23,11 @@ export class AppComponent implements OnInit, OnDestroy {
   timer$ = timer(0, 500).pipe(take(25));
   loaderForm: FormGroup;
   configForm: FormGroup;
-  config: any;
+  config = {
+    requests: 5,
+    timer: 500,
+    hint: ''
+  };
   loaders: any[];
 
   constructor(private readonly busynessService: BusynessService,
@@ -32,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
               private readonly formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.initScrollingSubs();
+    // this.initScrollingSubs();
     this.setUpForms();
     this.initLoaders();
   }
@@ -110,7 +114,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   testSingle() {
-    this.timer$.subscribe((val) => {
+    const timer$ = timer(0, 500).pipe(take(this.config.requests));
+    timer$.subscribe((val) => {
       this.busynessService.next(new Promise((resolve, reject) => {
         setTimeout(() => {
           if (val % 2 === 0) {
@@ -118,20 +123,20 @@ export class AppComponent implements OnInit, OnDestroy {
           } else {
             reject();
           }
-          console.log('resolve promise');
-        }, val * 1000);
+          console.log('resolve promise: ', this.config.hint);
+        }, val * this.config.timer);
       }));
     });
   }
 
   testMulti() {
     const battery = [];
-    for (let i = 1; i < 26; i++) {
+    for (let i = 1; i < (this.config.requests + 1); i++) {
       battery.push(new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve();
-          console.log('resolve promise in all');
-        }, i * 200);
+          console.log('resolve in promise all: ', this.config.hint);
+        }, i * this.config.timer);
       }));
     }
     this.busynessService.next(...battery);

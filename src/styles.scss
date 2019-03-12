@@ -5,7 +5,7 @@
 @include mat-core();
 
 $app-primary: mat-palette($mat-pink, A400);
-$app-accent: mat-palette($mat-indigo, A700);
+$app-accent: mat-palette($mat-pink, A700);
 
 $app-theme: mat-light-theme(
   $app-primary,
@@ -24,8 +24,10 @@ $app-theme: mat-light-theme(
   z-index: 999999;
 
   .loader-inner {
-    margin-top: 50vh;
-    margin-left: calc(50vw - 50px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-20px,-20px);
+    position: relative;
 
     div {
       background-color: #ed5565;
@@ -76,7 +78,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 101%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }
@@ -96,7 +98,11 @@ body {
   background: linear-gradient(to right, #F15F79, #B24592);
   color: white;
   height: 47vh;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
 
   .link-section {
     height: 150px;
@@ -120,7 +126,6 @@ body {
   h1 {
     display: inline-block;
     font-size: 5rem;
-    /* padding-top: 150px; */
     margin-bottom: 30px;
     border-bottom: white 2.5px dashed;
     line-height: 1.15;
@@ -152,52 +157,12 @@ body {
 .overview {
   text-align: center;
   background-color: white;
-  height: 56vh;
-  width: 99.78%;
-  margin-top: -2vh;
+  height: 90vh;
+  width: 100%;
+  margin-top: 45vh;
   border-radius: 20px 20px 0 0;
   position: relative;
   box-shadow: 0px 6px 20px 5px rgba(0, 0, 0, 0.3);
-}
-
-.moveTop {
-  margin-top: -31vh;
-  height: 85vh;
-  animation-name: moveTop;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-}
-
-.moveBottom {
-  margin-top: -2vh;
-  height: 56vh;
-  animation-name: moveBottom;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes moveTop {
-  0% {
-    margin-top: -2vh;
-    height: 56vh;
-  }
-
-  100% {
-    margin-top: -31vh;
-    height: 85vh;
-  }
-}
-
-@keyframes moveBottom {
-  0% {
-    margin-top: -31vh;
-    height: 85vh;
-  }
-
-  100% {
-    margin-top: -2vh;
-    height: 56vh;
-  }
 }
 
 @keyframes moveInLeft {
@@ -241,9 +206,9 @@ body {
 
   mat-horizontal-stepper {
     display: inline-block;
-    opacity: 0;
     background-color: #fdfdfd;
     width: 80%;
+    height: 90%;
     border-radius: 10px;
     box-shadow: 0px 0px 55px -10px rgba(0, 0, 0, 0.1);
   }
@@ -270,25 +235,35 @@ body {
 
   }
 
+  mat-step-header[ng-reflect-active="false"] {
+    display: none;
+  }
+
+  mat-step-header[ng-reflect-state="edit"] {
+    display: none;
+  }
+
   .mat-horizontal-stepper-header-container {
     justify-content: center;
     padding: 1% 5%;
-  }
-
-  .mat-stepper-horizontal-line {
-    border-top-width: 3px;
-    border-top-style: dashed;
+    height: 10%;
   }
 
   .mat-horizontal-content-container {
-    height: 80%;
+    height: 90%;
     position: relative;
+    padding: 0;
   }
   
   .mat-horizontal-stepper-content {
     height: 100%;
     position: relative;
   }
+
+  .mat-stepper-horizontal-line {
+    display: none;
+  }
+
 }
 
 .loaders-container {
@@ -297,8 +272,8 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
   position: relative;
-  height: 85%;
-  overflow: hidden;
+  height: 89%;
+  overflow-y: auto;
 
   .inner-loader {
     align-items: center;
@@ -329,31 +304,66 @@ body {
   right: 0;
 }
 
+.tests-container {
+  display: flex;
+  height: 90%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  vertical-align: top;
+
+  .inner-test {
+    display: flex;
+    flex-basis: 100%;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.button-row {
+  text-align: right;
+  height: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  button {
+    margin-right: 15px;
+  }
+}
+
 @media (min-width: 320px) {
+
   .inner-loader {
     flex-basis: 33%;
     height: 110px;
   }
 
   mat-horizontal-stepper {
-    margin-top: 10px;
+    margin-top: 40px;
     width: 90% !important;
   }
 
-  .expanded {
-    height: 80%;
+  .mat-form-field {
+    width: 90%;
   }
 
-  mat-step-header[ng-reflect-active="false"] {
-    display: none;
-  }
+  .welcome-banner {
+    .link-section {
+      height: 100px;
+    }
 
-  mat-step-header[ng-reflect-state="edit"] {
-    display: none;
-  }
+    h1 {
+      font-size: 3em
+    }
 
-  .mat-stepper-horizontal-line {
-    display: none;
+    h2 {
+      font-size: 1.5em;
+    }
+
+    h3 {
+      font-size: 1em;
+    }
   }
 
   @keyframes expand {
@@ -363,7 +373,7 @@ body {
     }
   
     100% {
-      height: 80%;
+      height: 90%;
       opacity: 1;
     }
   }
@@ -377,23 +387,28 @@ body {
 
   mat-horizontal-stepper {
     margin-top: 50px;
-
-  }
-
-  mat-step-header[ng-reflect-active="false"] {
-    display: flex;
-  }
-
-  mat-step-header[ng-reflect-state="edit"] {
-    display: flex;
   }
 
   .mat-stepper-horizontal-line {
-    display: block;
+    border-top-width: 3px !important;
+    border-top-style: dashed !important;
+    display: block !important;
+  }
+
+  mat-step-header[ng-reflect-active="false"] {
+    display: flex !important;
+  }
+
+  mat-step-header[ng-reflect-state="edit"] {
+    display: flex  !important;
+  }
+
+  .mat-horizontal-content-container {
+    height: 89% !important;
   }
   
-  .expanded {
-    height: 80%;
+  .mat-form-field {
+    width: 50%;
   }
 
   @keyframes expand {
@@ -403,24 +418,25 @@ body {
     }
   
     100% {
-      height: 80%;
+      height: 90%;
       opacity: 1;
     }
   }
 }
 
 @media (min-width: 1024px) {
+
   .inner-loader {
     flex-basis: 20%;
     height: 115px;
   }
 
-  .expanded {
-    height: 80%;
+  .mat-horizontal-content-container {
+    height: 87% !important;
   }
 
-  mat-horizontal-stepper {
-    margin-top: 50px;
+  .mat-form-field {
+    width: 50%;
   }
 
   @keyframes expand {
@@ -437,14 +453,16 @@ body {
 }
 
 @media (min-width: 1200px) {
+
   .inner-loader {
     flex-basis: 14%;
     height: 147px;
   }
 
-  mat-horizontal-stepper {
-    margin-top: 100px;
+  .mat-form-field {
+    width: 30%;
   }
+
 
   .expanded {
     height: 80%;
@@ -460,33 +478,5 @@ body {
       height: 80%;
       opacity: 1;
     }
-  }
-}
-
-.tests-container {
-  display: flex;
-  height: 90%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  vertical-align: top;
-
-  .mat-form-field {
-    width: 20%;
-  }
-
-  .inner-test {
-    display: flex;
-    flex-basis: 100%;
-    height: 100px;
-    justify-content: center;
-    align-items: center;
-  }
-}
-
-.button-row {
-  text-align: right;
-
-  button {
-    margin-right: 15px;
   }
 }
